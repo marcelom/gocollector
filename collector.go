@@ -3,12 +3,13 @@
 package main
 
 import (
-  "fmt"
+	"fmt"
 	"net/http"
 	"net/url"
 	"os"
 	"syscall"
 	"time"
+	"strconv"
 )
 
 func main() {
@@ -19,8 +20,12 @@ func main() {
 		si := syscall.Sysinfo_t{}
 		syscall.Sysinfo(&si)
 
-		l := fmt.Sprintf("%f", si.Loads[0]/65536.0)
-		fmt.Println(l,si.Loads[0]/65536.0, si.Loads[0])
+		l := strconv.FormatFloat(float64(si.Loads[0])    /  65536,'f', 2 ,    )
+		fmt.Println(l, si.Loads[0]/65536.0, si.Loads[0])
+
+
+		time.Sleep(1 * time.Second)
+		continue
 
 		resp, err := client.PostForm("https://api.stathat.com/ez", url.Values{
 			"stat":  {"loadavg"},
